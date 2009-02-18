@@ -27,6 +27,12 @@ plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git', :submodule => 
 plugin 'rspec_hpricot_matchers', :git => 'git://github.com/collectiveidea/rspec_hpricot_matchers.git', :submodule => true
 plugin 'restful_authentication', :git => 'git://github.com/technoweenie/restful-authentication.git', :submodule => true
 
+gem "rack", :version => '>= 0.9.0'
+gem "rubypants", :version => '>= 0.2.0'
+gem "rdiscount", :version => '>= 1.3.0'
+
 git :add => "."
 git :commit => "-a -m 'Added plugins as submodules.'"
+
+rake("gems:install", :sudo => true)
 
