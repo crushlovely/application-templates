@@ -31,6 +31,8 @@ gem "rack", :version => '>= 0.9.0'
 gem "rubypants", :version => '>= 0.2.0'
 gem "rdiscount", :version => '>= 1.3.0'
 
+generate(:rspec)
+
 git :add => "."
 git :commit => "-a -m 'Added plugins as submodules.'"
 
