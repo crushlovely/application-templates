@@ -26,6 +26,7 @@ plugin 'rspec_on_rails_matchers', :git => 'git://github.com/joshknowles/rspec-on
 plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git', :submodule => true
 plugin 'rspec_hpricot_matchers', :git => 'git://github.com/collectiveidea/rspec_hpricot_matchers.git', :submodule => true
 plugin 'restful_authentication', :git => 'git://github.com/technoweenie/restful-authentication.git', :submodule => true
+plugin 'crushlovely_framework_generator', :git => 'git clone git@github.com:boomdesigngroup/crushlovely-framework-generator.git', :submodule => true
 
 gem "rack", :version => '>= 0.9.0'
 gem "rubypants", :version => '>= 0.2.0'
