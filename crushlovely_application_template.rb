@@ -63,5 +63,8 @@ run "capify ."
 git :add => "."
 git :commit => "-a -m 'Added Capistrano file.'"
 
-# script/runner "User.create(:login => 'pj@crushlovely.com', :email => 'pj@crushlovely.com', :password => '1234', :password_confirmation => '1234')"
-
+# script/generate authenticated User
+# rake db:create:all
+# rake db:migrate
+# script/runner "User.create(:login => 'admin@crushlovely.com', :email => 'admin@crushlovely.com', :password => '1234', :password_confirmation => '1234')"
+# script/generate crushlovely_framework
