@@ -48,6 +48,7 @@ plugin 'rspec_on_rails_matchers', :git => 'git://github.com/joshknowles/rspec-on
 plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git', :submodule => true
 plugin 'rspec_hpricot_matchers', :git => 'git://github.com/collectiveidea/rspec_hpricot_matchers.git', :submodule => true
 plugin 'restful_authentication', :git => 'git://github.com/technoweenie/restful-authentication.git', :submodule => true
+plugin 'has_visibility', :git => 'git@github.com:boomdesigngroup/has-visibility.git', :submodule => true
 plugin 'crushlovely_framework_generator', :git => 'git@github.com:boomdesigngroup/crushlovely-framework-generator.git', :submodule => true
 
 gem "rack", :version => '>= 0.9.0'
@@ -68,5 +69,5 @@ git :commit => "-a -m 'Added Capistrano file.'"
 # script/generate authenticated User
 # rake db:create:all
 # rake db:migrate
-# script/runner "User.create(:login => 'admin@crushlovely.com', :email => 'admin@crushlovely.com', :password => '1234', :password_confirmation => '1234')"
+# script/runner "User.create(:login => 'admin@crushlovely.com', :email => 'admin@crushlovely.com', :password => '123abc123', :password_confirmation => '123abc123')"
 # script/generate crushlovely_framework
