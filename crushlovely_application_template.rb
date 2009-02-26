@@ -1,3 +1,5 @@
+# rails test -m http://gist.github.com/66503.txt
+
 run "rm public/index.html"
 run "rm -rf log/*"
 
