@@ -1,5 +1,6 @@
 run "rm public/index.html"
 run "rm -rf log/*"
+run "cp config/database.yml config/database.yml.sample"
 run "touch .gitignore;"
 run "cat > .gitignore << EOF
 .DS_Store
@@ -17,7 +18,7 @@ git :add => "."
 git :commit => "-a -m 'Initial commit'"
 
 plugin 'rspec', :git => 'git://github.com/dchelimsky/rspec.git', :submodule => true
-plugin 'rspec-rails', :git => 'git://github.com/dchelimsky/rspec-rails.git', :submodule => true
+plugin 'rspec_rails', :git => 'git://github.com/dchelimsky/rspec-rails.git', :submodule => true
 plugin 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git', :submodule => true
 plugin 'cucumber', :git => 'git://github.com/aslakhellesoy/cucumber.git', :submodule => true
 plugin 'object_daddy', :git => 'git://github.com/flogic/object_daddy.git', :submodule => true
@@ -38,4 +39,8 @@ git :add => "."
 git :commit => "-a -m 'Added plugins as submodules.'"
 
 rake("gems:install", :sudo => true)
+
+run "capify ."
+git :add => "."
+git :commit => "-a -m 'Added Capistrano file.'"
 
