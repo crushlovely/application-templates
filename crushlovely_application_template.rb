@@ -63,3 +63,5 @@ run "capify ."
 git :add => "."
 git :commit => "-a -m 'Added Capistrano file.'"
 
+# script/runner "User.create(:login => 'pj@crushlovely.com', :email => 'pj@crushlovely.com', :password => '1234', :password_confirmation => '1234')"
+
