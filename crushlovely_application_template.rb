@@ -11,11 +11,11 @@ local: &local
   password: 
 
 development:
-  database: crushlovely_development
+  database: app_development
   <<: *local
 
 test:
-  database: crushlovely_test
+  database: app_test
   <<: *local
 EOF"
 run "cp config/database.yml config/database.yml.sample"
