@@ -1,6 +1,25 @@
 run "rm public/index.html"
 run "rm -rf log/*"
+
+run ">> config/database.yml"
+run "cat > config/database.yml << EOF
+local: &local
+  adapter: mysql
+  host: localhost
+  encoding: utf8
+  username: root
+  password: 
+
+development:
+  database: crushlovely_development
+  <<: *local
+
+test:
+  database: crushlovely_test
+  <<: *local
+EOF"
 run "cp config/database.yml config/database.yml.sample"
+
 run "touch .gitignore;"
 run "cat > .gitignore << EOF
 .DS_Store
