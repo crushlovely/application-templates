@@ -161,14 +161,12 @@ end
   run "rm -f #{filename}"
 end
 
-inside('public') {
-  inside('stylesheets') {
-    %w(application.css foundation.css reset.css).each do |filename|
-      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/stylesheets/#{filename} > #{filename}"
-    end
-  }
-  # TODO Pull down jQuery
+inside('public/stylesheets') {
+  %w(application.css foundation.css reset.css).each do |filename|
+    run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/stylesheets/#{filename} > #{filename}"
+  end
 }
+# TODO Pull down jQuery
 
 inside('app/views/layouts') {
   %w(application.html.erb).each do |filename|
