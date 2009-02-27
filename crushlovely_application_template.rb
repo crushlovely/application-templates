@@ -126,7 +126,7 @@ if yes?('Are you gonna get your BDD on?')
   plugin 'cucumber', :git => 'git://github.com/aslakhellesoy/cucumber.git', :submodule => true
   plugin 'object_daddy', :git => 'git://github.com/flogic/object_daddy.git', :submodule => true
   generate(:rspec)
-  inside ('spec') {
+  inside('spec') {
     run "mkdir exemplars"
     # run "rm spec_helper.rb spec.opts rcov.opts"
   }
@@ -161,8 +161,8 @@ end
   run "rm -f #{filename}"
 end
 
-inside ('public') {
-  inside ('stylesheets') {
+inside('public') {
+  inside('stylesheets') {
     %w(application.css foundation.css reset.css).each do |filename|
       run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/stylesheets/#{filename} > #{filename}"
     end
@@ -170,14 +170,10 @@ inside ('public') {
   # TODO Pull down jQuery
 }
 
-inside ('app') {
-  inside ('views') {
-    inside ('layouts') {
-      %w(application.html.erb).each do |filename|
-        run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/layouts/#{filename} > #{filename}"
-      end
-    }
-  }
+inside('app/views/layouts') {
+  %w(application.html.erb).each do |filename|
+    run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/layouts/#{filename} > #{filename}"
+  end
 }
 
 # Commit
