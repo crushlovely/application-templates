@@ -36,6 +36,7 @@ rake "db:create:all"
 generate(:controller, "Home index")
 route "map.root :controller => 'home'"
 
+# TODO Extract deploy files into separate files that get pulled down by curl
 gem 'boomdesigngroup-crushserver', :version => '>= 0.1', :lib => 'crushserver',  :source => 'http://gems.github.com'
 capify!
 file "config/deploy.rb", %{set :stages, %w(staging live)
@@ -168,6 +169,9 @@ run "rm public/images/rails.png"
 run "rm public/favicon.ico"
 run "rm public/robots.txt"
 run "rm -f public/javascripts/*"
+
+# TODO Pull down jQuery
+# TODO Pull down Base CSS
 
 # Commit
 git :submodule => "init"
