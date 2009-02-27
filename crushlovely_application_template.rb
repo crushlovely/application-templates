@@ -174,6 +174,12 @@ inside('app/views/layouts') {
   end
 }
 
+inside('app/helpers') {
+  %w(application_helper.rb).each do |filename|
+    run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/helpers/#{filename} > #{filename}"
+  end
+}
+
 # Commit
 git :submodule => "init"
 git :add => "."
