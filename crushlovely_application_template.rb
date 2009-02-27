@@ -1,3 +1,5 @@
+# rails appname -m http://github.com/boomdesigngroup/application-templates/raw/master/crushlovely_application_template.rb
+
 # Let's get the application name
 application_name =  File.basename(@root)
 
