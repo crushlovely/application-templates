@@ -1,0 +1,106 @@
+/*	CRUSH + LOVELY :: FOUNDATION
+crushlovely.com
+...................................................................... */
+
+@import "reset.css";	/* CSS Reset by Eric Meyer */
+
+
+
+/*	Foundation
+...................................................................... */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+  font-style: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+body {
+  background: #fff;
+  font-size: 62.5%;
+  color: #333;
+}
+sup, sub, code, var, samp, kbd, small, tt, img {
+  line-height: 0;
+}
+em, i {
+  font-style: italic;
+}
+strong, b, dt	 {
+  font-weight: bold;
+}
+ol {
+  list-style: decimal;
+}
+ul {
+  list-style: square;
+}
+table {
+  width: 100%;
+}
+caption, th {
+  text-align: left;
+}
+a:link, a:visited, a:hover {
+  text-decoration: none;
+}
+a:focus {
+  outline: 1px dotted invert;
+}
+sup, sub {
+  font-size: 25%;
+  text-transform: lowercase;
+}
+sup {
+  vertical-align: super;
+}
+sub {
+  vertical-align: sub;
+}
+abbr, acronym {
+  border-bottom: 1px dotted;
+  cursor: help;
+}
+span.abbr {
+  border-bottom: 1px dotted;
+  cursor: help;
+}
+abbr {
+  speak: spell-out;
+}
+acronym {
+  speak: normal;
+}
+button, input[type="submit"], label {
+  cursor: pointer;
+}
+q:before {
+  content: "\201C";
+}
+q:after {
+  content: "\201D";
+}
+q>q:before {
+  content: "\2018";
+}
+q>q:after {
+  content: "\2019";
+}
+.continue q:after {
+  content: "";
+}
+.continue q>q:after {
+  content: "\2019";
+}
+.continue span {
+  display: none;
+  }	/* for IE */	
+  hr {
+    clear: both;
+    display: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 1px;
+    background: #000;
+    color: #000;
+  }
