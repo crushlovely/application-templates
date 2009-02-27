@@ -180,6 +180,12 @@ inside('app/helpers') {
   end
 }
 
+inside('config') {
+  %w(asset_packages.yml).each do |filename|
+    run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/config/#{filename} > #{filename}"
+  end
+}
+
 # Commit
 git :submodule => "init"
 git :add => "."
