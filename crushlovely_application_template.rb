@@ -38,8 +38,6 @@ rake "db:create:all"
 generate(:controller, "Home index")
 route "map.root :controller => 'home'"
 
-# TODO Extract deploy files into separate files that get pulled down by curl
-gem 'boomdesigngroup-crushserver', :version => '>= 0.1', :lib => 'crushserver',  :source => 'http://gems.github.com'
 capify!
 file "config/deploy.rb", %{set :stages, %w(staging live)
 require 'capistrano/ext/multistage'
@@ -48,18 +46,14 @@ require 'crushserver/recipes'
 
 set :application, "#{application_name}"
 
-# Target directory for the application on the web and app servers.
 set :deploy_to, "/var/www/apps/\#{application}"
 
-# Login user for ssh.
 set :user, "deploy"
 set :runner, user
 set :admin_runner, user
 set :app_server, :passenger
 
-# =============================================================================
 # GIT OPTIONS
-# =============================================================================
 set :scm, "git"
 set :repository,  "git@github.com:boomdesigngroup/\#{application}.git"
 set :ssh_options, { :forward_agent => true }
@@ -78,6 +72,7 @@ set :apache_ssl_enabled, false
 
 set :config_files, %w(database.yml)
 after 'deploy:update_code', 'bdg:localize:copy_shared_configurations'
+after 'deploy:symlink', 'asset:packager:build_all'
 
 on :start do
   `ssh-add`
@@ -166,7 +161,12 @@ inside('public/stylesheets') {
     run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/stylesheets/#{filename} > #{filename}"
   end
 }
-# TODO Pull down jQuery
+
+inside('public/javascripts') {
+  %w(jquery-1.2.6.js jquery.easing.1.3.js jquery.livequery.js application.js).each do |filename|
+    run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/javascripts/#{filename} > #{filename}"
+  end
+}
 
 inside('app/views/layouts') {
   %w(application.html.erb).each do |filename|
