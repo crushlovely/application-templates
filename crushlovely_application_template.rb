@@ -178,5 +178,3 @@ inside('app/views/layouts') {
 git :submodule => "init"
 git :add => "."
 git :commit => "-a -m 'Initial commit.'"
-
-rake("gems:install", :sudo => true)
