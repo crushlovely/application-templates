@@ -134,18 +134,14 @@ if yes?('Generate authentication/admin framework?')
   generate(:authenticated, 'User --rspec')
   rake "db:migrate"
   run 'mkdir -p db/fixtures'
-  admin_pw = ask('What password would you like to use for the admin CMS user? (must be a string of letters and numbers at least 6 characters in length)')
-  fixture_file = "db/fixtures/001_users.rb"
-  run "touch #{fixture_file};"
-  run "cat > #{fixture_file} << EOF
-  User.seed(:login) do |s|
-    s.name = 'Crush + Lovely'
-    s.login = 'admin@crushlovely.com'
-    s.email = 'admin@crushlovely.com'
-    s.password = '#{admin_pw}'
-    s.password_confirmation = '#{admin_pw}'
-  end
-  EOF"
+  admin_pw = '123abc123'
+  file "db/fixtures/001_users.rb", "User.seed(:login) do |s|
+  s.name = 'Crush + Lovely'
+  s.login = 'admin@crushlovely.com'
+  s.email = 'admin@crushlovely.com'
+  s.password = '#{admin_pw}'
+  s.password_confirmation = '#{admin_pw}'
+end"
   rake "db:seed"
 
   generate(:crushlovely_framework)
