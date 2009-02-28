@@ -3,7 +3,7 @@
 # Let's get the application name
 application_name =  File.basename(@root)
 
-git :init
+git :init if yes?("Is this a new repository?")
 
 freeze! if yes?("Freeze the latest Rails?")
 
@@ -147,42 +147,54 @@ end"
   generate(:crushlovely_framework)
 end
 
-# Grabage removal
-%w(README public/index.html public/images/rails.png public/favicon.ico public/robots.txt public/javascripts/* public/stylesheets/*).each do |filename|
+# Garbage removal
+%w(README public/index.html public/images/rails.png public/favicon.ico public/robots.txt).each do |filename|
   run "rm -f #{filename}"
 end
 
-inside('public/stylesheets') {
-  %w(application.css foundation.css reset.css).each do |filename|
-    run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/stylesheets/#{filename} > #{filename}"
-  end
-}
+if yes?('Clean out stylesheets and import foundation CSS?')
+  run "rm -f public/stylesheets/*"
+  inside('public/stylesheets') {
+    %w(application.css foundation.css reset.css).each do |filename|
+      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/stylesheets/#{filename} > #{filename}"
+    end
+  }
+end
 
-inside('public/javascripts') {
-  %w(jquery-1.2.6.js jquery.easing.1.3.js jquery.livequery.js application.js).each do |filename|
-    run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/javascripts/#{filename} > #{filename}"
-  end
-}
+if yes?('Clean out javascripts and import jQuery?')
+  run "rm -f public/javascripts/*"
+  inside('public/javascripts') {
+    %w(jquery-1.2.6.js jquery.easing.1.3.js jquery.livequery.js application.js).each do |filename|
+      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/javascripts/#{filename} > #{filename}"
+    end
+  }
+  inside('config') {
+    %w(asset_packages.yml).each do |filename|
+      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/config/#{filename} > #{filename}"
+    end
+  }
+else
+  rake('asset:packager:create_yml')
+end
 
-inside('app/views/layouts') {
-  %w(application.html.erb).each do |filename|
-    run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/layouts/#{filename} > #{filename}"
-  end
-}
+if yes?('Overwrite application.html.erb?')
+  inside('app/views/layouts') {
+    %w(application.html.erb).each do |filename|
+      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/layouts/#{filename} > #{filename}"
+    end
+  }
+end
 
-inside('app/helpers') {
-  %w(application_helper.rb).each do |filename|
-    run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/helpers/#{filename} > #{filename}"
-  end
-}
+if yes?('Overwrite application_helper.rb?')
+  inside('app/helpers') {
+    %w(application_helper.rb).each do |filename|
+      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/helpers/#{filename} > #{filename}"
+    end
+  }
+end
 
-inside('config') {
-  %w(asset_packages.yml).each do |filename|
-    run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/config/#{filename} > #{filename}"
-  end
-}
-
-# Commit
-git :submodule => "init"
-git :add => "."
-git :commit => "-a -m 'Initial commit.'"
+if yes?("Commit everything?")
+  git :submodule => "init"
+  git :add => "."
+  git :commit => "-a -m 'Initial commit.'"
+end
