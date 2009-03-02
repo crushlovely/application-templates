@@ -31,6 +31,7 @@ log/*
 tmp/*
 public/system/*"
 
+rake "db:drop:all" if yes?("Do you want to drop any previously existing databases?")
 # Create development and test databases
 rake "db:create:all"
 
@@ -38,8 +39,9 @@ rake "db:create:all"
 generate(:controller, "Home index")
 route "map.root :controller => 'home'"
 
-capify!
-file "config/deploy.rb", %{set :stages, %w(staging live)
+if yes?("Do you want to capify this project?")
+  capify!
+  file "config/deploy.rb", %{set :stages, %w(staging live)
 require 'capistrano/ext/multistage'
 require 'railsmachine/recipes'
 require 'crushserver/recipes'
@@ -79,7 +81,7 @@ on :start do
 end
 }
 
-file "config/deploy/live.rb", %{set :domain, "#{application_name}.bdgserver.com"
+  file "config/deploy/live.rb", %{set :domain, "#{application_name}.bdgserver.com"
 set :rails_env, "production"
 role :web, domain
 role :app, domain
@@ -89,7 +91,7 @@ set :apache_server_name, domain
 set :branch, "deploy/live"
 }
 
-file "config/deploy/staging.rb", %{set :domain, "#{application_name}.bdgstage.com"
+  file "config/deploy/staging.rb", %{set :domain, "#{application_name}.bdgstage.com"
 set :rails_env, "production"
 role :web, domain
 role :app, domain
@@ -98,7 +100,7 @@ role :scm, domain
 set :apache_server_name, domain
 set :branch, "deploy/stage"
 }
-
+end
 # Plugins, gems, etc.
 plugin 'acts_as_list', :git => 'git://github.com/rails/acts_as_list.git', :submodule => true
 plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git', :submodule => true
