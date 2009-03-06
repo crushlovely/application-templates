@@ -104,7 +104,7 @@ end
 # Plugins, gems, etc.
 plugin 'acts_as_list', :git => 'git://github.com/rails/acts_as_list.git', :submodule => true
 plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git', :submodule => true
-plugin 'has_visibility', :git => 'git://github.com:boomdesigngroup/has-visibility.git', :submodule => true
+plugin 'has_visibility', :git => 'git://github.com/boomdesigngroup/has-visibility.git', :submodule => true
 plugin 'meta_tags', :git => 'git://github.com/kpumuk/meta-tags.git', :submodule => true
 plugin 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git', :submodule => true
 plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git', :submodule => true
@@ -191,6 +191,20 @@ if yes?('Overwrite application_helper.rb?')
   inside('app/helpers') {
     %w(application_helper.rb).each do |filename|
       run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/helpers/#{filename} > #{filename}"
+    end
+  }
+end
+
+if yes?('Overwrite Sessions controller and view?')
+  inside('app/controllers') {
+    %w(sessions_controller.rb).each do |filename|
+      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/controllers/#{filename} > #{filename}"
+    end
+  }
+
+  inside('app/views/sessions') {
+    %w(new.html.erb).each do |filename|
+      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/views/sessions/#{filename} > #{filename}"
     end
   }
 end
