@@ -14,7 +14,7 @@ module ApplicationHelper
     </script>
     <script type="text/javascript">
       try {
-      var pageTracker = _gat._getTracker("UA-525540-59");
+      var pageTracker = _gat._getTracker("UA-XXXXXX-XX");
       pageTracker._trackPageview();
       } catch(err) {}
     </script>
