@@ -137,7 +137,11 @@ if yes?('Generate authentication/admin framework?')
   rake "db:migrate"
   run 'mkdir -p db/fixtures'
   admin_pw = '123abc123'
-  file "db/fixtures/001_users.rb", "User.seed(:login) do |s|
+  file "db/fixtures/001_users.rb", "def file_attachment(filename)
+  File.new(File.join(File.dirname(__FILE__), "files", filename), 'rb')
+end
+
+User.seed(:login) do |s|
   s.name = 'Crush + Lovely'
   s.login = 'admin@crushlovely.com'
   s.email = 'admin@crushlovely.com'
