@@ -1,4 +1,4 @@
-# rails appname -m http://github.com/boomdesigngroup/application-templates/raw/master/crushlovely_application_template.rb
+# rails appname -m http://github.com/crushlovely/application-templates/raw/master/crushlovely_application_template.rb
 
 # Let's get the application name
 application_name =  File.basename(@root)
@@ -57,7 +57,7 @@ set :app_server, :passenger
 
 # GIT OPTIONS
 set :scm, "git"
-set :repository,  "git@github.com:boomdesigngroup/\#{application}.git"
+set :repository,  "git@github.com:crushlovely/\#{application}.git"
 set :ssh_options, { :forward_agent => true }
 default_run_options[:pty] = true
 set :deploy_via, :remote_cache
@@ -104,7 +104,7 @@ end
 # Plugins, gems, etc.
 plugin 'acts_as_list', :git => 'git://github.com/rails/acts_as_list.git'
 plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git'
-plugin 'has_visibility', :git => 'git://github.com/boomdesigngroup/has-visibility.git'
+plugin 'has_visibility', :git => 'git://github.com/crushlovely/has-visibility.git'
 plugin 'meta_tags', :git => 'git://github.com/kpumuk/meta-tags.git'
 plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git'
 
@@ -129,7 +129,7 @@ rake("gems:install", :sudo => true)
 
 if yes?('Generate authentication/admin framework?')
   plugin 'restful_authentication', :git => 'git://github.com/technoweenie/restful-authentication.git'
-  plugin 'crushlovely_framework_generator', :git => 'git@github.com:boomdesigngroup/crushlovely-framework-generator.git'
+  plugin 'crushlovely_framework_generator', :git => 'git@github.com:crushlovely/crushlovely-framework-generator.git'
 
   generate(:authenticated, 'User --rspec')
   rake "db:migrate"
@@ -160,7 +160,7 @@ if yes?('Clean out stylesheets and import foundation CSS?')
   run "rm -f public/stylesheets/*"
   inside('public/stylesheets') {
     %w(application.css foundation.css reset.css).each do |filename|
-      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/stylesheets/#{filename} > #{filename}"
+      run "curl -sL http://github.com/crushlovely/application-templates/raw/master/stylesheets/#{filename} > #{filename}"
     end
   }
 end
@@ -169,12 +169,12 @@ if yes?('Clean out javascripts and import jQuery?')
   run "rm -f public/javascripts/*"
   inside('public/javascripts') {
     %w(jquery-1.2.6.js jquery.easing.1.3.js jquery.livequery.js application.js).each do |filename|
-      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/javascripts/#{filename} > #{filename}"
+      run "curl -sL http://github.com/crushlovely/application-templates/raw/master/javascripts/#{filename} > #{filename}"
     end
   }
   inside('config') {
     %w(asset_packages.yml).each do |filename|
-      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/config/#{filename} > #{filename}"
+      run "curl -sL http://github.com/crushlovely/application-templates/raw/master/config/#{filename} > #{filename}"
     end
   }
 else
@@ -184,7 +184,7 @@ end
 if yes?('Overwrite application.html.erb?')
   inside('app/views/layouts') {
     %w(application.html.erb).each do |filename|
-      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/layouts/#{filename} > #{filename}"
+      run "curl -sL http://github.com/crushlovely/application-templates/raw/master/layouts/#{filename} > #{filename}"
     end
   }
 end
@@ -192,7 +192,7 @@ end
 if yes?('Overwrite application_helper.rb?')
   inside('app/helpers') {
     %w(application_helper.rb).each do |filename|
-      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/helpers/#{filename} > #{filename}"
+      run "curl -sL http://github.com/crushlovely/application-templates/raw/master/helpers/#{filename} > #{filename}"
     end
   }
 end
@@ -200,13 +200,13 @@ end
 if yes?('Overwrite Sessions controller and view?')
   inside('app/controllers') {
     %w(sessions_controller.rb).each do |filename|
-      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/controllers/#{filename} > #{filename}"
+      run "curl -sL http://github.com/crushlovely/application-templates/raw/master/controllers/#{filename} > #{filename}"
     end
   }
 
   inside('app/views/sessions') {
     %w(new.html.erb).each do |filename|
-      run "curl -sL http://github.com/boomdesigngroup/application-templates/raw/master/views/sessions/#{filename} > #{filename}"
+      run "curl -sL http://github.com/crushlovely/application-templates/raw/master/views/sessions/#{filename} > #{filename}"
     end
   }
 end
