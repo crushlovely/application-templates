@@ -102,36 +102,34 @@ set :branch, "deploy/stage"
 }
 end
 # Plugins, gems, etc.
-plugin 'acts_as_list', :git => 'git://github.com/rails/acts_as_list.git', :submodule => true
-plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git', :submodule => true
-plugin 'has_visibility', :git => 'git://github.com/boomdesigngroup/has-visibility.git', :submodule => true
-plugin 'meta_tags', :git => 'git://github.com/kpumuk/meta-tags.git', :submodule => true
-plugin 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git', :submodule => true
-plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git', :submodule => true
+plugin 'acts_as_list', :git => 'git://github.com/rails/acts_as_list.git'
+plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git'
+plugin 'has_visibility', :git => 'git://github.com/boomdesigngroup/has-visibility.git'
+plugin 'meta_tags', :git => 'git://github.com/kpumuk/meta-tags.git'
+plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git'
 
-gem "rack", :version => '>= 0.9.1'
-gem "rdiscount", :version => '>= 1.3.0'
-gem "rubypants", :version => '>= 0.2.0'
-gem 'mislav-will_paginate', :version => '~> 2.2.3', :lib => 'will_paginate',  :source => 'http://gems.github.com'
-rake("gems:install", :sudo => true)
+gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com', :version => '~> 2.2.3'
+gem 'right_aws'
+gem 'thoughtbot-paperclip', :lib => 'paperclip', :source => 'http://gems.github.com', :version => '2.2.8'
+gem "rdiscount"
+gem "acts_as_markup"
 
 if yes?('Are you gonna get your BDD on?')
-  plugin 'rspec', :git => 'git://github.com/dchelimsky/rspec.git', :submodule => true
-  plugin 'rspec_hpricot_matchers', :git => 'git://github.com/collectiveidea/rspec_hpricot_matchers.git', :submodule => true
-  plugin 'rspec_on_rails_matchers', :git => 'git://github.com/joshknowles/rspec-on-rails-matchers.git', :submodule => true
-  plugin 'rspec_rails', :git => 'git://github.com/dchelimsky/rspec-rails.git', :submodule => true
-  plugin 'cucumber', :git => 'git://github.com/aslakhellesoy/cucumber.git', :submodule => true
-  plugin 'object_daddy', :git => 'git://github.com/flogic/object_daddy.git', :submodule => true
+  gem 'rspec', :lib => false, :version => '= 1.2.6'
+  gem 'rspec-rails', :lib => false, :version => '= 1.2.6'
+  gem 'cucumber', :lib => false, :version => '= 0.3.3'
+  gem 'thoughtbot-factory_girl', :lib => 'factory_girl', :source => 'http://gems.github.com', :version => '1.2.1'
+  gem 'webrat', :lib => false, :version => '= 0.4.4'
+  gem 'nokogiri', :lib => false, :version => '1.2.3'
+  rake("gems:install", :sudo => true)
   generate(:rspec)
-  inside('spec') {
-    run "mkdir exemplars"
-    # run "rm spec_helper.rb spec.opts rcov.opts"
-  }
 end
 
+rake("gems:install", :sudo => true)
+
 if yes?('Generate authentication/admin framework?')
-  plugin 'restful_authentication', :git => 'git://github.com/technoweenie/restful-authentication.git', :submodule => true
-  plugin 'crushlovely_framework_generator', :git => 'git@github.com:boomdesigngroup/crushlovely-framework-generator.git', :submodule => true
+  plugin 'restful_authentication', :git => 'git://github.com/technoweenie/restful-authentication.git'
+  plugin 'crushlovely_framework_generator', :git => 'git@github.com:boomdesigngroup/crushlovely-framework-generator.git'
 
   generate(:authenticated, 'User --rspec')
   rake "db:migrate"
