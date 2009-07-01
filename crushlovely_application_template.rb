@@ -36,8 +36,8 @@ rake "db:drop:all" if yes?("Do you want to drop any previously existing database
 rake "db:create:all"
 
 # Generate a home page controller/action and setup the route for it
-generate(:controller, "Home index")
-route "map.root :controller => 'home'"
+# generate(:controller, "Home index")
+# route "map.root :controller => 'home'"
 
 if yes?("Do you want to capify this project?")
   capify!
