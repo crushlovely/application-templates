@@ -1,11 +1,7 @@
 # rails appname -m http://github.com/crushlovely/application-templates/raw/master/crushlovely_application_template.rb
 
 application_name =  File.basename(@root)
-if yes?("Pull from remote repository?")
-  template_location = "curl -sL http://github.com/crushlovely/application-templates/raw/master/"
-else
-  template_location = "cat ~/Projects/application-templates/"
-end
+template_location =  yes?("Pull from remote repository?") ? "curl -sL http://github.com/crushlovely/application-templates/raw/master/" : "cat ~/Projects/application-templates/"
 
 git :init if yes?("Is this a new repository?")
 
@@ -52,55 +48,52 @@ rake "db:create:all"
 generate(:controller, "Home index")
 route "map.root :controller => 'home'"
 
-if yes?("Do you want to capify this project?")
-  capify!
-  file "config/deploy.rb", %{set :stages, %w(production build staging)
-  require 'capistrano/ext/multistage'
-  require 'crushserver/recipes'
+capify!
+file "config/deploy.rb", %{set :stages, %w(production build staging)
+require 'capistrano/ext/multistage'
+require 'crushserver/recipes'
 
-  # =============================================================================
-  # GIT OPTIONS
-  # =============================================================================
-  set :scm, :git
-  set :git_shallow_clone, 1
-  set :git_enable_submodules, 1
-  ssh_options[:paranoid] = false
-  ssh_options[:forward_agent] = true
-  default_run_options[:pty] = true
+# =============================================================================
+# GIT OPTIONS
+# =============================================================================
+set :scm, :git
+set :git_shallow_clone, 1
+set :git_enable_submodules, 1
+ssh_options[:paranoid] = false
+ssh_options[:forward_agent] = true
+default_run_options[:pty] = true
 
-  set :config_files, %w(database.yml)
-  after 'moonshine:apply', 'asset:packager:build_all'
+after 'moonshine:apply', 'asset:packager:build_all'
 
-  on :start do
-    `ssh-add`
-  end}
+on :start do
+  `ssh-add`
+end}
 
-  file "config/deploy/production.rb", %{set :domain, 'production.#{application_name}.com'
-  set :rails_env, "production"
+file "config/deploy/production.rb", %{set :domain, 'production.#{application_name}.com'
+set :rails_env, "production"
 
-  role :web, domain
-  role :app, domain
-  role :db,  domain, :primary => true
-  role :scm, domain}
+role :web, domain
+role :app, domain
+role :db,  domain, :primary => true
+role :scm, domain}
 
-  file "config/deploy/staging.rb", %{set :domain, 'staging.#{application_name}.com'
-  set :rails_env, "staging"
+file "config/deploy/staging.rb", %{set :domain, 'staging.#{application_name}.com'
+set :rails_env, "staging"
 
-  role :web, domain
-  role :app, domain
-  role :db,  domain, :primary => true
-  role :scm, domain}
-end
+role :web, domain
+role :app, domain
+role :db,  domain, :primary => true
+role :scm, domain}
 
-plugin 'crushlovely_framework_generator', :git => 'git@github.com:crushlovely/crushlovely-framework-generator.git'
 plugin 'acts_as_list', :git => 'git://github.com/rails/acts_as_list.git'
-plugin 'has_visibility', :git => 'git://github.com/crushlovely/has-visibility.git'
-plugin 'meta_tags', :git => 'git://github.com/kpumuk/meta-tags.git'
-plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git'
-plugin 'rspec_on_rails_matchers', :git => 'git://github.com/brandon/rspec-on-rails-matchers.git'
-plugin 'hoptoad_notifier', :git => 'git://github.com/thoughtbot/hoptoad_notifier.git'
-plugin 'moonshine', :git => 'git://github.com/railsmachine/moonshine.git'
 plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git'
+plugin 'crushlovely_framework_generator', :git => 'git@github.com:crushlovely/crushlovely-framework-generator.git'
+plugin 'has_visibility', :git => 'git://github.com/crushlovely/has-visibility.git'
+plugin 'hoptoad_notifier', :git => 'git://github.com/thoughtbot/hoptoad_notifier.git'
+plugin 'meta_tags', :git => 'git://github.com/kpumuk/meta-tags.git'
+plugin 'moonshine', :git => 'git://github.com/railsmachine/moonshine.git'
+plugin 'rspec_on_rails_matchers', :git => 'git://github.com/brandon/rspec-on-rails-matchers.git'
+plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git'
 gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com', :version => '~> 2.2.3'
 gem 'thoughtbot-clearance', :lib => 'clearance', :source => 'http://gems.github.com', :version => '0.6.6' 
 gem 'right_aws'
@@ -116,17 +109,17 @@ gem 'cucumber', :lib => false, :version => '= 0.3.3'
 gem 'thoughtbot-factory_girl', :lib => 'factory_girl', :source => 'http://gems.github.com', :version => '1.2.1'
 gem 'webrat', :lib => false, :version => '= 0.4.4'
 gem 'nokogiri', :lib => false, :version => '1.2.3'
-gem 'bmabey-email_spec', :lib => 'email_spec'
-
+gem 'bmabey-email_spec', :lib => 'email_spec', :source => 'http://gems.github.com'
 rake("gems:install", :sudo => true)
+
 generate(:rspec)
 generate(:cucumber)
 generate(:moonshine)
 rake("moonshine:gems")
 
-# if yes?('Generate authentication/admin framework?')
-#   generate(:clearance)
-#   rake "db:migrate"
+if yes?('Generate authentication/admin framework?')
+  generate(:clearance)
+  rake "db:migrate"
 #   run 'mkdir -p db/fixtures'
 #   admin_pw = '123abc123'
 #   file "db/fixtures/001_users.rb", %{def file_attachment(filename)
@@ -141,9 +134,8 @@ rake("moonshine:gems")
 #   s.password_confirmation = '#{admin_pw}'
 # end}
 #   rake "db:seed"
-# 
-#   generate(:crushlovely_framework)
-# end
+  generate(:crushlovely_framework)
+end
 
 # Garbage removal
 %w(README public/index.html public/images/rails.png).each do |filename|

@@ -5,3 +5,9 @@ javascripts:
   - jquery.easing.1.3
   - jquery.livequery
   - application
+stylesheets:
+- base:
+  - reset
+  - foundation
+  - application
+
