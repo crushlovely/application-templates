@@ -4,7 +4,7 @@ module ApplicationHelper
     [controller.controller_name, "#{controller.controller_name}-#{controller.action_name}"].join(' ')
   end
 
-  def google_analytics_tracking_code
+  def google_analytics_tracking_code(code = 'UA-XXXXXX-XX')
     if Rails.env.production?
     <<-HERE
 
@@ -14,7 +14,7 @@ module ApplicationHelper
     </script>
     <script type="text/javascript">
       try {
-      var pageTracker = _gat._getTracker("UA-XXXXXX-XX");
+      var pageTracker = _gat._getTracker("#{code}");
       pageTracker._trackPageview();
       } catch(err) {}
     </script>
