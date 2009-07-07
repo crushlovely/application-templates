@@ -184,19 +184,20 @@ if yes?('Overwrite application_helper.rb?')
   }
 end
 
-# if yes?('Overwrite Sessions controller and view?')
-#   inside('app/controllers') {
-#     %w(sessions_controller.rb).each do |filename|
-#       run "#{template_location}controllers/#{filename} > #{filename}"
-#     end
-#   }
-# 
-#   inside('app/views/sessions') {
-#     %w(new.html.erb).each do |filename|
-#       run "#{template_location}views/sessions/#{filename} > #{filename}"
-#     end
-#   }
-# end
+if yes?('Overwrite Sessions controller and view?')
+  inside('app/controllers') {
+    %w(sessions_controller.rb).each do |filename|
+      run "#{template_location}controllers/#{filename} > #{filename}"
+    end
+  }
+
+  run "mkdir -p app/views/sessions"
+  inside('app/views/sessions') {
+    %w(new.html.erb).each do |filename|
+      run "#{template_location}views/sessions/#{filename} > #{filename}"
+    end
+  }
+end
 
 if yes?("Commit everything?")
   git :add => "."

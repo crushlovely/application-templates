@@ -1,40 +1,41 @@
 class SessionsController < AdminController
-  skip_before_filter :login_required
+  skip_before_filter :users_only, :except => [:destroy]
+  protect_from_forgery :except => :create
+  filter_parameter_logging :password
 
   def new
+    render
   end
 
   def create
-    logout_keeping_session!
-    user = User.authenticate(params[:login], params[:password])
-    if user
-      # Protects against session fixation attacks, causes request forgery
-      # protection if user resubmits an earlier form using back
-      # button. Uncomment if you understand the tradeoffs.
-      # reset_session
-      self.current_user = user
-      new_cookie_flag = (params[:remember_me] == "1")
-      handle_remember_cookie! new_cookie_flag
-      redirect_back_or_default('/')
-      flash[:notice] = "Logged in successfully"
+    @user = ::User.authenticate(params[:session][:email], params[:session][:password])
+
+    if @user.nil?
+      flash.now[:failure] = translate(:bad_email_or_password,
+        :scope   => [:clearance, :controllers, :sessions],
+        :default => "Bad email or password.")
+      render :action => 'new', :status => :unauthorized
     else
-      note_failed_signin
-      @login       = params[:login]
-      @remember_me = params[:remember_me]
-      render :action => 'new'
+      sign_user_in(@user)
+      remember(@user) if remember?
+      flash[:success] = translate(:signed_in, :default =>  "Signed in.")
+      redirect_back_or url_after_create
     end
   end
 
   def destroy
-    logout_killing_session!
-    flash[:notice] = "You have been logged out."
-    redirect_back_or_default('/')
+    forget(current_user)
+    flash[:success] = translate(:signed_out, :default =>  "Signed out.")
+    redirect_to url_after_destroy
   end
 
-protected
-  # Track failed login attempts
-  def note_failed_signin
-    flash[:error] = "Couldn't log you in as '#{params[:login]}'"
-    logger.warn "Failed login for '#{params[:login]}' from #{request.remote_ip} at #{Time.now.utc}"
+  private
+
+  def url_after_create
+    admin_url
+  end
+
+  def url_after_destroy
+    new_session_url
   end
 end
