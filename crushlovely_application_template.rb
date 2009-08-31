@@ -1,7 +1,7 @@
 # rails appname -m http://github.com/crushlovely/application-templates/raw/master/crushlovely_application_template.rb
 
 application_name =  File.basename(@root)
-template_location =  yes?("Pull from remote repository?") ? "curl -sL http://github.com/crushlovely/application-templates/raw/master/" : "cat ~/Projects/application-templates/"
+template_location =  yes?("Pull from remote repository?") ? "curl -sL http://github.com/crushlovely/application-templates/raw/master/" : "cat /Users/Shared/Projects/application-templates/"
 
 git :init if yes?("Is this a new repository?")
 
@@ -168,6 +168,12 @@ else
   rake('asset:packager:create_yml')
 end
 
+inside('config/initializers') {
+  %w(paperclip.rb).each do |filename|
+    run "#{template_location}config/initializers/#{filename} > #{filename}"
+  end
+}
+
 if yes?('Overwrite application.html.erb?')
   inside('app/views/layouts') {
     %w(application.html.erb).each do |filename|
@@ -197,6 +203,8 @@ if yes?('Overwrite Sessions controller and view?')
       run "#{template_location}views/sessions/#{filename} > #{filename}"
     end
   }
+
+  route %{map.resource :session, :controller => 'sessions', :only => [:new, :create, :destroy]}
 end
 
 if yes?("Commit everything?")
