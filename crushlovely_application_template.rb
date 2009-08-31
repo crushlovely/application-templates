@@ -168,6 +168,12 @@ else
   rake('asset:packager:create_yml')
 end
 
+inside('config') {
+  %w(paperclip.yml).each do |filename|
+    run "#{template_location}config/#{filename} > #{filename}"
+  end
+}
+
 inside('config/initializers') {
   %w(paperclip.rb).each do |filename|
     run "#{template_location}config/initializers/#{filename} > #{filename}"
