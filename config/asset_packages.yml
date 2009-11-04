@@ -1,9 +1,8 @@
 --- 
 javascripts: 
 - base: 
-  - jquery-1.2.6
-  - jquery.easing.1.3
-  - jquery.livequery
+  - jquery
+  - jquery.easing
   - application
 - admin: 
   - admin/jquery-1.3.1

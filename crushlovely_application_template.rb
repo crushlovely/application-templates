@@ -5,8 +5,6 @@ template_location =  yes?("Pull from remote repository?") ? "curl -sL http://git
 
 git :init if yes?("Is this a new repository?")
 
-freeze! if yes?("Freeze the latest Rails?")
-
 # Setup database.yml
 file "config/database.yml", "local: &local
   adapter: mysql
@@ -38,7 +36,8 @@ file ".gitignore", ".DS_Store
 database.yml
 log/*
 tmp/*
-public/system/*"
+public/system/*
+backups/*"
 
 rake "db:drop:all" if yes?("Do you want to drop any previously existing databases?")
 # Create development and test databases
@@ -72,16 +71,16 @@ end}
 file "config/deploy/production.rb", %{set :domain, 'production.#{application_name}.com'
 set :rails_env, "production"
 
-role :web, domain
-role :app, domain
+role :web, domain, :primary => true
+role :app, domain, :primary => true
 role :db,  domain, :primary => true
 role :scm, domain}
 
 file "config/deploy/staging.rb", %{set :domain, 'staging.#{application_name}.com'
 set :rails_env, "staging"
 
-role :web, domain
-role :app, domain
+role :web, domain, :primary => true
+role :app, domain, :primary => true
 role :db,  domain, :primary => true
 role :scm, domain}
 
@@ -92,28 +91,20 @@ plugin 'has_visibility', :git => 'git://github.com/crushlovely/has-visibility.gi
 plugin 'hoptoad_notifier', :git => 'git://github.com/thoughtbot/hoptoad_notifier.git'
 plugin 'meta_tags', :git => 'git://github.com/kpumuk/meta-tags.git'
 plugin 'moonshine', :git => 'git://github.com/railsmachine/moonshine.git'
-plugin 'rspec_on_rails_matchers', :git => 'git://github.com/brandon/rspec-on-rails-matchers.git'
+plugin 'moonshine_imagemagick', :git => 'git://github.com/crushlovely/moonshine_imagemagick.git'
 plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git'
-gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com', :version => '~> 2.2.3'
-gem 'thoughtbot-clearance', :lib => 'clearance', :source => 'http://gems.github.com', :version => '0.6.6' 
+plugin 'awesome_backup', :git => 'git://github.com/collectiveidea/awesome-backup.git'
+gem 'will_paginate'
+gem 'clearance'
 gem 'right_aws'
-gem 'thoughtbot-paperclip', :lib => 'paperclip', :source => 'http://gems.github.com', :version => '2.2.8'
-gem 'rubypants', :version => '>= 0.2.0'
+gem 'paperclip'
+gem 'rubypants'
 gem "rdiscount"
 gem "acts_as_markup"
-gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
-gem 'faker', :version => '0.3.1'
-gem 'rspec', :lib => false, :version => '= 1.2.6'
-gem 'rspec-rails', :lib => false, :version => '= 1.2.6'
-gem 'cucumber', :lib => false, :version => '= 0.3.3'
-gem 'thoughtbot-factory_girl', :lib => 'factory_girl', :source => 'http://gems.github.com', :version => '1.2.1'
-gem 'webrat', :lib => false, :version => '= 0.4.4'
-gem 'nokogiri', :lib => false, :version => '1.2.3'
-gem 'bmabey-email_spec', :lib => 'email_spec', :source => 'http://gems.github.com'
+gem "acts-as-taggable-on"
+gem 'faker'
 rake("gems:install", :sudo => true)
 
-generate(:rspec)
-generate(:cucumber)
 generate(:moonshine)
 rake("moonshine:gems")
 
@@ -134,7 +125,7 @@ User.seed(:email) do |c|
   c.password_confirmation = password
   c.email_confirmed = true
 end}
-  rake "db:seed"
+  rake "db:seed_fu"
   generate(:crushlovely_framework)
 end
 
@@ -155,7 +146,7 @@ end
 if yes?('Clean out javascripts and import jQuery?')
   run "rm -f public/javascripts/*"
   inside('public/javascripts') {
-    %w(jquery-1.2.6.js jquery.easing.1.3.js jquery.livequery.js application.js).each do |filename|
+    %w(jquery.js jquery.easing.js application.js).each do |filename|
       run "#{template_location}javascripts/#{filename} > #{filename}"
     end
   }
@@ -196,22 +187,21 @@ if yes?('Overwrite application_helper.rb?')
   }
 end
 
-if yes?('Overwrite Sessions controller and view?')
-  inside('app/controllers') {
-    %w(sessions_controller.rb).each do |filename|
-      run "#{template_location}controllers/#{filename} > #{filename}"
-    end
-  }
-
-  run "mkdir -p app/views/sessions"
-  inside('app/views/sessions') {
-    %w(new.html.erb).each do |filename|
-      run "#{template_location}views/sessions/#{filename} > #{filename}"
-    end
-  }
-
-  route %{map.resource :session, :controller => 'sessions', :only => [:new, :create, :destroy]}
-end
+# if yes?('Overwrite Sessions controller and view?')
+#   inside('app/controllers') {
+#     %w(sessions_controller.rb).each do |filename|
+#       run "#{template_location}controllers/#{filename} > #{filename}"
+#     end
+#   }
+# 
+#   run "mkdir -p app/views/sessions"
+#   inside('app/views/sessions') {
+#     %w(new.html.erb).each do |filename|
+#       run "#{template_location}views/sessions/#{filename} > #{filename}"
+#     end
+#   }
+# end
+route %{map.resource :session, :controller => 'sessions', :only => [:new, :create, :destroy]}
 
 if yes?("Commit everything?")
   git :add => "."
