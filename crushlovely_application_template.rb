@@ -94,6 +94,7 @@ plugin 'moonshine', :git => 'git://github.com/railsmachine/moonshine.git'
 plugin 'moonshine_imagemagick', :git => 'git://github.com/crushlovely/moonshine_imagemagick.git'
 plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git'
 plugin 'awesome_backup', :git => 'git://github.com/collectiveidea/awesome-backup.git'
+plugin 'table_helper', :git => 'git://github.com/pluginaweek/table_helper.git'
 
 gem 'vestal_versions'
 gem 'validation_reflection'
