@@ -94,6 +94,11 @@ plugin 'moonshine', :git => 'git://github.com/railsmachine/moonshine.git'
 plugin 'moonshine_imagemagick', :git => 'git://github.com/crushlovely/moonshine_imagemagick.git'
 plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git'
 plugin 'awesome_backup', :git => 'git://github.com/collectiveidea/awesome-backup.git'
+
+gem 'vestal_versions'
+gem 'validation_reflection'
+gem 'formtastic'
+gem 'inherited_resources'
 gem 'will_paginate'
 gem 'clearance'
 gem 'right_aws'
@@ -103,6 +108,7 @@ gem "rdiscount"
 gem "acts_as_markup"
 gem "acts-as-taggable-on"
 gem 'faker'
+
 rake("gems:install", :sudo => true)
 
 generate(:moonshine)
@@ -110,6 +116,7 @@ rake("moonshine:gems")
 
 if yes?('Generate authentication/admin framework?')
   generate(:clearance)
+  generate(:vestal_versions_migration)
   rake "db:migrate"
   run 'mkdir -p db/fixtures'
   admin_pw = '123abc123'
@@ -187,20 +194,6 @@ if yes?('Overwrite application_helper.rb?')
   }
 end
 
-# if yes?('Overwrite Sessions controller and view?')
-#   inside('app/controllers') {
-#     %w(sessions_controller.rb).each do |filename|
-#       run "#{template_location}controllers/#{filename} > #{filename}"
-#     end
-#   }
-# 
-#   run "mkdir -p app/views/sessions"
-#   inside('app/views/sessions') {
-#     %w(new.html.erb).each do |filename|
-#       run "#{template_location}views/sessions/#{filename} > #{filename}"
-#     end
-#   }
-# end
 route %{map.resource :session, :controller => 'sessions', :only => [:new, :create, :destroy]}
 
 if yes?("Commit everything?")

@@ -5,10 +5,9 @@ javascripts:
   - jquery.easing
   - application
 - admin: 
-  - admin/jquery-1.3.1
-  - admin/jquery-ui-personalized-1.5.3
-  - admin/jquery.livequery
-  - admin/jquery.tablednd.0.5
+  - admin/jquery
+  - admin/jquery.ui
+  - admin/jquery.tablednd
   - admin/jquery.form
   - admin/jquery.validate
   - admin/application
