@@ -1,5 +1,3 @@
-# rails appname -m http://github.com/crushlovely/application-templates/raw/master/crushlovely_application_template.rb
-
 application_name =  File.basename(@root)
 template_location =  yes?("Pull from remote repository?") ? "curl -sL http://github.com/crushlovely/application-templates/raw/master/" : "cat /Users/Shared/Projects/application-templates/"
 
