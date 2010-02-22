@@ -45,43 +45,6 @@ rake "db:create:all"
 generate(:controller, "Home index")
 route "map.root :controller => 'home'"
 
-capify!
-file "config/deploy.rb", %{set :stages, %w(production build staging)
-require 'capistrano/ext/multistage'
-require 'crushserver/recipes'
-
-# =============================================================================
-# GIT OPTIONS
-# =============================================================================
-set :scm, :git
-set :git_shallow_clone, 1
-set :git_enable_submodules, 1
-ssh_options[:paranoid] = false
-ssh_options[:forward_agent] = true
-default_run_options[:pty] = true
-
-after 'moonshine:apply', 'asset:packager:build_all'
-
-on :start do
-  `ssh-add`
-end}
-
-file "config/deploy/production.rb", %{set :domain, 'production.#{application_name}.com'
-set :rails_env, "production"
-
-role :web, domain, :primary => true
-role :app, domain, :primary => true
-role :db,  domain, :primary => true
-role :scm, domain}
-
-file "config/deploy/staging.rb", %{set :domain, 'staging.#{application_name}.com'
-set :rails_env, "staging"
-
-role :web, domain, :primary => true
-role :app, domain, :primary => true
-role :db,  domain, :primary => true
-role :scm, domain}
-
 plugin 'acts_as_list', :git => 'git://github.com/rails/acts_as_list.git'
 plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git'
 plugin 'crushlovely_framework_generator', :git => 'git@github.com:crushlovely/crushlovely-framework-generator.git'
@@ -119,6 +82,44 @@ rake("gems:install", :sudo => true)
 
 generate(:moonshine)
 rake("moonshine:gems")
+# capify!
+file "config/deploy.rb", %{set :stages, %w(production build staging)
+require 'capistrano/ext/multistage'
+require 'crushserver/recipes'
+
+# =============================================================================
+# GIT OPTIONS
+# =============================================================================
+set :scm, :git
+set :git_shallow_clone, 1
+set :git_enable_submodules, 1
+ssh_options[:paranoid] = false
+ssh_options[:forward_agent] = true
+default_run_options[:pty] = true
+
+after 'moonshine:apply', 'asset:packager:build_all'
+
+on :start do
+  `ssh-add`
+end
+
+require 'hoptoad_notifier/capistrano'}
+
+file "config/deploy/production.rb", %{set :domain, 'production.#{application_name}.com'
+set :rails_env, "production"
+
+role :web, domain, :primary => true
+role :app, domain, :primary => true
+role :db,  domain, :primary => true
+role :scm, domain}
+
+file "config/deploy/staging.rb", %{set :domain, 'staging.#{application_name}.com'
+set :rails_env, "staging"
+
+role :web, domain, :primary => true
+role :app, domain, :primary => true
+role :db,  domain, :primary => true
+role :scm, domain}
 
 if yes?('Generate authentication/admin framework?')
   generate(:clearance)
