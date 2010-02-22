@@ -86,27 +86,34 @@ plugin 'acts_as_list', :git => 'git://github.com/rails/acts_as_list.git'
 plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git'
 plugin 'crushlovely_framework_generator', :git => 'git@github.com:crushlovely/crushlovely-framework-generator.git'
 plugin 'has_visibility', :git => 'git://github.com/crushlovely/has-visibility.git'
-plugin 'hoptoad_notifier', :git => 'git://github.com/thoughtbot/hoptoad_notifier.git'
 plugin 'meta_tags', :git => 'git://github.com/kpumuk/meta-tags.git'
 plugin 'moonshine', :git => 'git://github.com/railsmachine/moonshine.git'
-plugin 'moonshine_imagemagick', :git => 'git://github.com/crushlovely/moonshine_imagemagick.git'
 plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git'
 plugin 'awesome_backup', :git => 'git://github.com/collectiveidea/awesome-backup.git'
 plugin 'table_helper', :git => 'git://github.com/pluginaweek/table_helper.git'
 
-gem 'vestal_versions'
-gem 'validation_reflection'
-gem 'formtastic'
-gem 'inherited_resources'
-gem 'will_paginate'
-gem 'clearance'
-gem 'right_aws'
-gem 'paperclip'
-gem 'rubypants'
-gem "rdiscount"
-gem "acts_as_markup"
-gem "acts-as-taggable-on"
-gem 'faker'
+gem 'hoptoad_notifier',      :version => '2.2.0'
+gem 'vestal_versions',       :version => '0.8.3'
+gem 'validation_reflection', :version => '0.3.5'
+gem 'formtastic',            :version => '0.9.2'
+gem 'inherited_resources',   :version => '0.9.2'
+gem 'will_paginate',         :version => '2.3.11'
+gem 'clearance',             :version => '0.8.7'
+gem 'paperclip',             :version => '2.3.1.1'
+gem "rubypants",             :version => '0.2.0'
+gem 'rdiscount',             :version => '1.5.8'
+gem 'acts_as_markup',        :version => '1.3.3'
+
+# gem 'pickle',                :version => '0.2.1'
+# gem 'webrat',                :version => '0.6.0', :lib => false
+# gem 'database_cleaner',      :version => '0.4.3', :lib => false
+# gem 'cucumber-rails',        :version => '0.2.4', :lib => false
+# gem 'cucumber',              :version => '0.6.2', :lib => false
+# gem 'fakeweb',               :version => '1.2.8'
+# gem 'ffaker',                :version => '0.3.4'
+# gem 'factory_girl',          :version => '1.2.3'
+# gem 'rspec-rails',           :version => '1.3.2', :lib => false
+# gem 'rspec',                 :version => '1.3.0', :lib => false
 
 rake("gems:install", :sudo => true)
 
@@ -115,7 +122,7 @@ rake("moonshine:gems")
 
 if yes?('Generate authentication/admin framework?')
   generate(:clearance)
-  generate(:vestal_versions_migration)
+  # generate(:vestal_versions_migration)
   rake "db:migrate"
   run 'mkdir -p db/fixtures'
   admin_pw = '123abc123'
@@ -193,7 +200,15 @@ if yes?('Overwrite application_helper.rb?')
   }
 end
 
-route %{map.resource :session, :controller => 'sessions', :only => [:new, :create, :destroy]}
+route %{map.sign_in  'sign_in',
+  :controller => 'sessions',
+  :action     => 'new'
+map.sign_out 'sign_out',
+  :controller => 'sessions',
+  :action     => 'destroy',
+  :method     => :delete
+Clearance::Routes.draw(map)
+}
 
 if yes?("Commit everything?")
   git :add => "."
