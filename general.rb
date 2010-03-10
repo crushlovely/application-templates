@@ -34,8 +34,8 @@ plugin 'meta_tags', :git => 'git://github.com/kpumuk/meta-tags.git'
 plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git'
 plugin 'awesome_backup', :git => 'git://github.com/collectiveidea/awesome-backup.git'
 
-gem 'capistrano',            :version => '2.5.17'
-gem 'capistrano-ext',        :version => '1.2.1'
-gem 'crushserver',           :version => '0.2.2'
+gem 'capistrano',            :version => '2.5.17', :lib => false
+gem 'capistrano-ext',        :version => '1.2.1',  :lib => false
+gem 'crushserver',           :version => '0.2.2',  :lib => false
 
 rake("gems:install", :sudo => true)
