@@ -1,5 +1,8 @@
 template_location =  "curl -sL #{@base_uri}templates/"
 
+generate(:controller, "Home index")
+route "map.root :controller => 'home'"
+
 if yes?('Clean out stylesheets and import foundation CSS?')
   run "rm -f public/stylesheets/*"
   inside('public/stylesheets') {
