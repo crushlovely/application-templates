@@ -1,4 +1,4 @@
-  plugin 'crushlovely_framework_generator', :git => 'git@github.com:crushlovely/crushlovely-framework-generator.git'
+  plugin 'cms', :git => 'git@github.com:crushlovely/cms.git'
   plugin 'acts_as_list', :git => 'git://github.com/rails/acts_as_list.git'
   plugin 'has_visibility', :git => 'git://github.com/crushlovely/has-visibility.git'
   plugin 'table_helper', :git => 'git://github.com/pluginaweek/table_helper.git'
