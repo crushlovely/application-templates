@@ -1,3 +1,9 @@
+gem 'capistrano',            :version => '2.5.17', :lib => false
+gem 'capistrano-ext',        :version => '1.2.1',  :lib => false
+gem 'crushserver',           :version => '0.2.2',  :lib => false
+
+rake("gems:install", :sudo => true)
+
 plugin 'moonshine', :git => 'git://github.com/railsmachine/moonshine.git'
 plugin 'moonshine_iptables', :git => 'git://github.com/railsmachine/moonshine_iptables.git'
 

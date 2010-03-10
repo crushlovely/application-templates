@@ -16,6 +16,17 @@
   rake("gems:install", :sudo => true)
 
   generate(:clearance)
+
+  route %{map.sign_in  'sign_in',
+    :controller => 'sessions',
+    :action     => 'new'
+  map.sign_out 'sign_out',
+    :controller => 'sessions',
+    :action     => 'destroy',
+    :method     => :delete
+  Clearance::Routes.draw(map)
+  }
+
   rake "db:migrate"
   run 'mkdir -p db/fixtures'
   admin_pw = '123abc123'
