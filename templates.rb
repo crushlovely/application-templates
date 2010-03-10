@@ -35,7 +35,7 @@ inside('config') {
 }
 
 inside('config/initializers') {
-  %w(paperclip.rb).each do |filename|
+  %w(settings.rb).each do |filename|
     run "#{template_location}config/initializers/#{filename} > #{filename}"
   end
 }
