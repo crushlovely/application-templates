@@ -31,8 +31,9 @@
   run 'mkdir -p db/fixtures'
   admin_pw = '123abc123'
   file "db/fixtures/001_users.rb", %{def file_attachment(filename)
-  File.new(File.join(File.dirname(__FILE__), "files", filename), 'rb')
+  File.new(File.join(RAILS_ROOT, 'db', 'fixtures', "files", filename), 'rb')
 end
+
 
 password = '#{admin_pw}'
 
