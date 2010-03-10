@@ -3,7 +3,7 @@ template_location =  "curl -sL #{@base_uri}templates/"
 generate(:controller, "Home index")
 route "map.root :controller => 'home'"
 
-if yes?('Clean out stylesheets and import foundation CSS?')
+if all? || yes?('Clean out stylesheets and import foundation CSS?')
   run "rm -f public/stylesheets/*"
   inside('public/stylesheets') {
     %w(application.css foundation.css reset.css).each do |filename|
@@ -12,7 +12,7 @@ if yes?('Clean out stylesheets and import foundation CSS?')
   }
 end
 
-if yes?('Clean out javascripts and import jQuery?')
+if all? || yes?('Clean out javascripts and import jQuery?')
   run "rm -f public/javascripts/*"
   inside('public/javascripts') {
     %w(jquery.js jquery.easing.js application.js).each do |filename|
@@ -40,7 +40,7 @@ inside('config/initializers') {
   end
 }
 
-if yes?('Overwrite application.html.erb?')
+if all? || yes?('Overwrite application.html.erb?')
   inside('app/views/layouts') {
     %w(application.html.erb).each do |filename|
       run "#{template_location}layouts/#{filename} > #{filename}"
@@ -48,7 +48,7 @@ if yes?('Overwrite application.html.erb?')
   }
 end
 
-if yes?('Overwrite application_helper.rb?')
+if all? || yes?('Overwrite application_helper.rb?')
   inside('app/helpers') {
     %w(application_helper.rb).each do |filename|
       run "#{template_location}helpers/#{filename} > #{filename}"

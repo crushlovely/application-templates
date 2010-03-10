@@ -1,3 +1,6 @@
+rake "db:drop", :env => "test"
+rake "db:create", :env => "test"
+
 gem 'pickle',                :env => 'test', :version => '>=0.2.1',  :lib => false
 gem 'webrat',                :env => 'test', :version => '>=0.6.0',  :lib => false
 gem 'database_cleaner',      :env => 'test', :version => '>=0.4.3',  :lib => false

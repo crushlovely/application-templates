@@ -26,10 +26,5 @@ production:
   password: #{Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{seed}")[1..20]}
   <<: *local"
 
-if yes?("Do you want to drop any previously existing databases?")
-  rake "db:drop", :env => "development"
-  rake "db:drop", :env => "test"
-end
-
+rake "db:drop", :env => "development"
 rake "db:create", :env => "development"
-rake "db:create", :env => "test"
