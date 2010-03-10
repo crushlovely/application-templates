@@ -16,6 +16,7 @@ gem 'rspec',                 :env => 'test', :version => '>=1.3.0',  :lib => fal
 
 rake("gems:install", :sudo => true, :env => 'test')
 
+generate(:rspec)
 generate(:cucumber)
 generate(:pickle)
 
@@ -24,3 +25,8 @@ gem 'fakeweb',               :env => 'cucumber', :version => '>=1.2.8'
 gem 'ffaker',                :env => 'cucumber', :version => '>=0.3.4'
 gem 'factory_girl',          :env => 'cucumber', :version => '>=1.2.3'
 gem 'email_spec',            :env => 'cucumber', :version => '>=0.6.0'
+
+file "spec/factories.rb", %{}
+file "features/support/factory_girl.rb", %{require 'factory_girl'
+require File.dirname(__FILE__) + '/../../spec/factories'
+}
