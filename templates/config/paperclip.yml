@@ -1,27 +1,30 @@
 shared: &shared
-  url_pattern: '/system/:class/:attachment/:id/:style/:basename.:extension'
-  path_pattern: ':rails_root/public/system/:class/:attachment/:id/:style/:basename.:extension'
-  command_path: /usr/local/bin
-  valid_image_formats:
-    - png
-    - jpg
-  valid_image_content_types:
-    - image/png
-    - image/jpg
-    - image/jpeg
+  :paperclip:
+    :url_pattern: '/system/:class/:attachment/:id/:style/:basename.:extension'
+    :path_pattern: ':rails_root/public/system/:class/:attachment/:id/:style/:basename.:extension'
+    :command_path: /usr/local/bin
+    :valid_image_formats:
+      - png
+      - jpg
+    :valid_image_content_types:
+      - image/png
+      - image/jpg
+      - image/jpeg
 development:
-  <<: *shared
-
-development_cached:
   <<: *shared
 
 test:
   <<: *shared
 
+cucumber:
+  <<: *shared
+
 staging:
   <<: *shared
-  command_path: /usr/bin
+  :paperclip:
+    :command_path: /usr/bin
 
 production:
   <<: *shared
-  command_path: /usr/bin
+  :paperclip:
+    :command_path: /usr/bin

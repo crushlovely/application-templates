@@ -33,3 +33,6 @@ plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git'
 plugin 'meta_tags', :git => 'git://github.com/kpumuk/meta-tags.git'
 plugin 'seed_fu', :git => 'git://github.com/mbleigh/seed-fu.git'
 plugin 'awesome_backup', :git => 'git://github.com/collectiveidea/awesome-backup.git'
+
+gem 'configliere', :version => '0.0.5'
+rake("gems:install", :sudo => true)

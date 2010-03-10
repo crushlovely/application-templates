@@ -43,4 +43,4 @@ User.seed(:email) do |c|
   c.email_confirmed = true
 end}
   rake "db:seed_fu"
-  generate(:crushlovely_framework)
+  generate(:cms_framework)
