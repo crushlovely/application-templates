@@ -19,3 +19,21 @@
   map.sign_in 'sign_in', :controller => 'user_sessions', :action => 'new'
   map.resources :user_sessions
 }
+  inside('app/controllers') {
+    run "#{template_location}controllers/application_controller.rb > application_controller.rb"
+  }
+  rake "db:migrate"
+  run 'mkdir -p db/fixtures'
+  file "db/fixtures/001_users.rb", %{def file_attachment(filename)
+  File.new(File.join(RAILS_ROOT, "db", "fixtures", "files", filename), 'rb')
+end
+
+password = "123abc123"
+
+User.seed(:email) do |c|
+  c.name = "Crush + Lovely"
+  c.email = "admin@crushlovely.com"
+  c.password = password
+  c.password_confirmation = password
+end}
+  rake "db:seed_fu"
