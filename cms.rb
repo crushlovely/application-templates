@@ -15,8 +15,7 @@
   rake("gems:install", :sudo => true)
 
   generate(:cms_framework)
-  route %{
-    map.sign_out 'sign_out', :controller => 'user_sessions', :action => 'destroy'
-    map.sign_in 'sign_in', :controller => 'user_sessions', :action => 'new'
-    map.resources :user_sessions
-}
+#   route %{map.sign_out 'sign_out', :controller => 'user_sessions', :action => 'destroy'
+#   map.sign_in 'sign_in', :controller => 'user_sessions', :action => 'new'
+#   map.resources :user_sessions
+# }
