@@ -1,15 +1,14 @@
 shared: &shared
-  :paperclip:
-    :url_pattern: '/system/:class/:attachment/:id/:style/:basename.:extension'
-    :path_pattern: ':rails_root/public/system/:class/:attachment/:id/:style/:basename.:extension'
-    :command_path: /usr/local/bin
-    :valid_image_formats:
-      - png
-      - jpg
-    :valid_image_content_types:
-      - image/png
-      - image/jpg
-      - image/jpeg
+  :url_pattern: '/system/:class/:attachment/:id/:style/:basename.:extension'
+  :path_pattern: ':rails_root/public/system/:class/:attachment/:id/:style/:basename.:extension'
+  :command_path: /usr/local/bin
+  :valid_image_formats:
+    - png
+    - jpg
+  :valid_image_content_types:
+    - image/png
+    - image/jpg
+    - image/jpeg
 development:
   <<: *shared
 
@@ -21,10 +20,8 @@ cucumber:
 
 staging:
   <<: *shared
-  :paperclip:
-    :command_path: /usr/bin
+  :command_path: /usr/bin
 
 production:
   <<: *shared
-  :paperclip:
-    :command_path: /usr/bin
+  :command_path: /usr/bin
