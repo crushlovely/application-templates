@@ -14,9 +14,9 @@
 
   rake("gems:install", :sudo => true)
 
-  generate(:cms_framework)
   generate(:devise_install)
   generate(:devise, "Admin")
+  generate(:cms_framework)
 
   run 'mkdir -p db/fixtures'
   file "db/fixtures/001_admins.rb", %{def file_attachment(filename)
