@@ -1,7 +1,3 @@
-gem 'capistrano',            :version => '2.5.17', :lib => false
-gem 'capistrano-ext',        :version => '1.2.1',  :lib => false
-gem 'crushserver',           :version => '0.2.2',  :lib => false
-
 rake("gems:install", :sudo => true)
 
 plugin 'moonshine', :git => 'git://github.com/railsmachine/moonshine.git'
@@ -28,23 +24,15 @@ on :start do
   `ssh-add`
 end}
 
-file "config/deploy/production.rb", %{set :domain, 'production.#{@application_name}.com'
+file "config/deploy/production.rb", %{set :domain, '#{@application_name}.crushserver.com'
 set :rails_env, "production"
+server domain, :app, :web, :db, :primary => true}
 
-role :web, domain, :primary => true
-role :app, domain, :primary => true
-role :db,  domain, :primary => true
-role :scm, domain}
-
-file "config/deploy/staging.rb", %{set :domain, 'staging.#{@application_name}.com'
+file "config/deploy/staging.rb", %{set :domain, 'staging.#{@application_name}.crushserver.com'
 set :rails_env, "staging"
+server domain, :app, :web, :db, :primary => true}
 
-role :web, domain, :primary => true
-role :app, domain, :primary => true
-role :db,  domain, :primary => true
-role :scm, domain}
-
-file "app/manifests/application_manifest.rb", %{require "#{File.dirname(__FILE__)}/../../vendor/plugins/moonshine/lib/moonshine.rb"
+file "app/manifests/application_manifest.rb", %{require "\#{File.dirname(__FILE__)}/../../vendor/plugins/moonshine/lib/moonshine.rb"
 class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :default_stack
   recipe :iptables
