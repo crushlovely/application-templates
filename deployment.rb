@@ -1,9 +1,9 @@
-rake("gems:install", :sudo => true)
+@application_name =  File.basename(@root)
 
 plugin 'moonshine', :git => 'git://github.com/railsmachine/moonshine.git'
 plugin 'moonshine_iptables', :git => 'git://github.com/railsmachine/moonshine_iptables.git'
 
-generate(:moonshine)
+generate(:moonshine, '--force')
 
 rake("moonshine:gems")
 
